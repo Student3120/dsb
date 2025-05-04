@@ -1,0 +1,42 @@
+import pandas as pd  # For data manipulation 
+import numpy as np  # For numerical operations 
+import seaborn as sns  # For data visualization 
+import matplotlib.pyplot as plt  # For plotting 
+from sklearn.preprocessing import PowerTransformer 
+ 
+# Load the dataset 
+file_path = "D:/academics.csv"  # Replace with your dataset path 
+data = pd.read_csv("D:/academics.csv") 
+ 
+# Check the first few rows 
+print(data.head()) 
+# Display data information 
+print(data.info()) 
+# Check for missing values 
+print(data.isnull().sum()) 
+ 
+# Fill missing values in 'gender' with mode 
+data['gender'].fillna(data['gender'].mode()[0], inplace=True) 
+# Fill missing values in 'raisedhands' with mean 
+data['raisedhands'].fillna(data['raisedhands'].mean(), inplace=True) 
+ 
+# Boxplot for 'raisedhands' 
+sns.boxplot(data=data, x='raisedhands') 
+plt.title('Boxplot of Raised Hands') 
+plt.show() 
+ 
+# Cap outliers using IQR (Interquartile Range) 
+Q1 = data['raisedhands'].quantile(0.25) 
+Q3 = data['raisedhands'].quantile(0.75) 
+IQR = Q3 - Q1 
+lower_bound = Q1 - 1.5 * IQR 
+upper_bound = Q3 + 1.5 * IQR 
+# Cap values outside bounds 
+data['raisedhands'] = np.clip(data['raisedhands'], lower_bound, upper_bound) 
+ 
+# Apply PowerTransformer to 'raisedhands' 
+transformer = PowerTransformer(method='yeo-johnson') 
+data['raisedhands'] = transformer.fit_transform(data[['raisedhands']]) 
+ 
+# Save the cleaned dataset to a CSV file 
+data.to_csv("cleaned_academics.csv", index=False)

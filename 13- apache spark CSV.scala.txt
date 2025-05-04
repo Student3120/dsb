@@ -1,0 +1,29 @@
+ReadCSV.scala 
+import org.apache.spark.sql.SparkSession 
+object ReadCSV { 
+  def main(args: Array[String]): Unit = { 
+    val spark = SparkSession.builder() 
+      .appName("CSV Reader") 
+      .master("local[*]") 
+      .getOrCreate() 
+    val df = spark.read 
+      .option("header", "true") 
+      .option("inferSchema", "true") 
+      .csv("src/main/resources/data.csv") 
+    df.show() 
+    spark.stop() 
+  } 
+} 
+build.sbt 
+name := "ScalaCSVProject" 
+version := "0.1" 
+scalaVersion := "2.13.12" 
+libraryDependencies ++= Seq( 
+  "org.apache.spark" %% "spark-core" % "3.5.0", 
+  "org.apache.spark" %% "spark-sql" % "3.5.0" 
+) 
+data.csv 
+id,name,age 
+1,John,25 
+2,Alice,30 
+3,Bob,28

@@ -1,0 +1,18 @@
+import pandas as pd 
+ 
+# Load the cleaned dataset 
+file_path = 'D:/iris.csv'  # Replace with your actual file path if necessary 
+data = pd.read_csv("D:/iris.csv") 
+ 
+# Calculate group-wise summary statistics (grouped by 'Gender') 
+summary_stats = data.groupby('Species').describe()
+ 
+# Save the summary statistics to a new file 
+output_file_path = 'groupwise_summary_statistics.csv' 
+summary_stats.to_csv(output_file_path) 
+ 
+print(f"Group-wise summary statistics saved to: {output_file_path}") 
+ 
+# Optionally, display the statistics in the console 
+print("\nGroup-wise Summary Statistics:") 
+print(summary_stats)

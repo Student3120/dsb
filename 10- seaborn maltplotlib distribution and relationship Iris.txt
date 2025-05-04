@@ -1,0 +1,49 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the dataset
+df = pd.read_csv('D:/Iris.csv')
+
+# Display the first 10 rows
+df.head(10)
+
+# Drop the 'Id' column
+df.drop(columns=['Id'], errors='ignore', inplace=True)
+
+# Get the data types of each column
+df.dtypes
+
+# Get the shape of the DataFrame
+df.shape
+
+# Get a concise summary of the DataFrame
+df.info()
+
+# Generate descriptive statistics of the DataFrame
+df.describe()
+
+# Get the column names
+df.columns
+
+# Check for missing values in each column
+df.isnull().sum()
+
+# Set plot style
+sns.set_style("whitegrid")
+
+# Create histograms for each numeric feature
+plt.figure(figsize=(10, 6))
+df.iloc[:, :-1].hist(figsize=(10, 6), bins=15, edgecolor='black', color='skyblue')
+plt.suptitle("Histograms of Numeric Features", fontsize=14)
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+plt.show()
+
+# Create box plots for each numeric feature
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=df.iloc[:, :-1], palette="Set2")
+plt.title("Box Plots of Numeric Features", fontsize=14)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()

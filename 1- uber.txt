@@ -1,0 +1,43 @@
+import pandas as pd # For data manipulation 
+import numpy as np # For numerical operations 
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder # For normalization and encoding 
+import matplotlib.pyplot as plt # For plotting 
+import seaborn as sns # For advanced visualization 
+ 
+# Load the dataset into a pandas DataFrame 
+file_path = "D:/uber.csv" # Replace with the actual path if needed 
+uber_data = pd.read_csv("D:/uber.csv")
+ 
+# Check the first few rows of the dataset 
+print(uber_data.head()) 
+# Get the shape of the dataset 
+print("Dimensions:", uber_data.shape) 
+# Get column names and types 
+print("Columns and Types:\n", uber_data.dtypes) 
+ 
+# Check for missing values 
+print(uber_data.isnull().sum()) 
+# Drop rows with missing values (optional) 
+uber_data.dropna(inplace=True) 
+ 
+# Get statistical summary 
+print(uber_data.describe()) 
+ 
+# Convert pickup_datetime to datetime type 
+uber_data['pickup_datetime'] = pd.to_datetime(uber_data['pickup_datetime']) 
+# Confirm data type 
+print(uber_data.dtypes) 
+ 
+# Apply MinMaxScaler to numerical columns 
+scaler = MinMaxScaler() 
+numerical_columns = ['fare_amount', 'pickup_longitude', 'pickup_latitude', 'dropoff_longitude', 
+'dropoff_latitude'] 
+uber_data[numerical_columns] = scaler.fit_transform(uber_data[numerical_columns]) 
+ 
+# Apply LabelEncoder to categorical columns 
+encoder = LabelEncoder() 
+uber_data['key'] = encoder.fit_transform(uber_data['key']) 
+ 
+ 
+# Save the processed dataset to a CSV file 
+uber_data.to_csv("processed_uber.csv", index=False)

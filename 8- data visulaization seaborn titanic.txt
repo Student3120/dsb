@@ -1,0 +1,31 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('D:/Titanic.csv')
+df.head(10)
+df.info()
+df.dtypes
+df.describe()
+df.columns
+
+plt.figure(figsize=(10,6))
+sns.histplot(df['Fare'], kde=True, bins=30, color='skyblue')
+plt.title('Distribution of Ticket Fare on the Titanic', fontsize=14)
+plt.xlabel('Fare', fontsize=12)
+plt.ylabel('Frequency', fontsize=12)
+plt.show()
+
+fig, axis = plt.subplots(1,1,figsize=(6, 6))
+
+# Histogram for 'Sex' distribution (better to use countplot)
+sns.countplot(ax=axis, data=df, x='Sex', hue='Sex', palette='pastel')
+axis.set_title('Passenger Count by Sex')
+
+# Histogram for 'Fare' distribution
+# sns.histplot(ax=axis[1], data=df, x='Fare', bins=30, kde=True, color='skyblue')
+# axis[1].set_title('Distribution of Ticket Fare')
+
+plt.tight_layout()
+plt.show()

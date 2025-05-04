@@ -1,0 +1,29 @@
+# Import necessary libraries 
+import pandas as pd 
+from sklearn.model_selection import train_test_split 
+from sklearn.naive_bayes import GaussianNB 
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score 
+# Load the dataset 
+file_path = "D:/iris.csv"  # Path to your uploaded dataset 
+df = pd.read_csv("D:/iris.csv") 
+# Preprocess the Data 
+df = df.drop(columns=['Id'], errors='ignore')  # Drop 'Id' column if it exists 
+X = df.iloc[:, :-1]  # Select all columns except the last as features 
+y = df.iloc[:, -1]   # Select the last column as target labels 
+# Split the data into training and testing sets (70% train, 30% test) 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42) 
+# Train the Naïve Bayes classifier 
+nb_classifier = GaussianNB() 
+nb_classifier.fit(X_train, y_train) 
+# Make predictions on test data 
+y_pred = nb_classifier.predict(X_test) 
+# Compute Confusion Matrix and Performance Metrics 
+conf_matrix = confusion_matrix(y_test, y_pred) 
+accuracy = accuracy_score(y_test, y_pred) 
+precision = precision_score(y_test, y_pred, average='weighted') 
+recall = recall_score(y_test, y_pred, average='weighted') 
+# Display Results 
+print("Confusion Matrix:\n", conf_matrix) 
+print(f"Accuracy: {accuracy:.2f}") 
+print(f"Precision: {precision:.2f}") 
+print(f"Recall: {recall:.2f}") 

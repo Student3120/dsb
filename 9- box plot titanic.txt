@@ -1,0 +1,63 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the dataset
+df = pd.read_csv('D:/Titanic.csv')
+
+# Display the first 10 rows
+df.head(10)
+
+# Get a concise summary of the DataFrame
+df.info()
+
+# Get the data types of each column
+df.dtypes
+
+# Generate descriptive statistics of the DataFrame
+df.describe()
+
+# Get the column names
+df.columns
+
+# Check for missing values in each column
+df.isnull().sum()
+
+# Drop the 'Cabin' column due to many missing values
+df.drop(columns=['Cabin'], inplace=True)
+
+# Verify the remaining columns
+df.columns
+
+# Fill missing 'Age' values with the median
+df['Age'].fillna(df['Age'].median(), inplace=True)
+
+# Fill missing 'Embarked' values with the mode
+df['Embarked'].fillna(df['Embarked'].mode()[0], inplace=True)
+
+# Verify that there are no remaining missing values
+df.isnull().sum()
+
+# Visualize the distribution of 'Fare'
+plt.figure(figsize=(10, 6))
+sns.histplot(df['Fare'], kde=True, bins=30, color='skyblue')
+plt.title('Distribution of Ticket Fare on the Titanic', fontsize=14)
+plt.xlabel('Fare', fontsize=12)
+plt.ylabel('Frequency', fontsize=12)
+plt.show()
+
+# Visualize the count of passengers by 'Sex'
+fig, axis = plt.subplots(1, 1, figsize=(6, 6))
+sns.countplot(ax=axis, data=df, x='Sex', hue='Sex', palette='pastel')
+axis.set_title('Passenger Count by Sex')
+plt.tight_layout()
+plt.show()
+
+# Visualize the distribution of 'Age' by 'Sex' and 'Survived' status using boxplots
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='Sex', y='Age', hue='Survived', data=df, palette='Set2')
+plt.xlabel("Gender")
+plt.ylabel("Age")
+plt.title("Age Distribution by Gender and Survival Status")
+plt.show()
