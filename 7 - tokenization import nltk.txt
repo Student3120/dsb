@@ -1,0 +1,66 @@
+import nltk
+import string
+import re
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer,WordNetLemmatizer
+from nltk import pos_tag
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+document = "Natural Language Processing (NLP) is a sub-field of Artificial Intelligence that focuses on the interaction between computers and humans using natural language."
+
+
+import nltk
+nltk.download('punkt_tab')
+tokens = word_tokenize(document)
+print("Tokens:",tokens)
+
+
+import nltk
+nltk.download('averaged_perceptron_tagger_eng')
+
+
+pos_tags = pos_tag(tokens)
+print("POS Tags:",pos_tags)
+
+stop_words = set(stopwords.words('english'))
+tokens_no_stopwords = [word for word in tokens if word.lower() not in stop_words]
+print("After Stopword Removal:",tokens_no_stopwords)
+
+
+stemmer = PorterStemmer()
+stemmed_words = [stemmer.stem(word) for word in tokens_no_stopwords]
+print("After Lemmatization:",stemmed_words)
+
+
+from nltk.stem import WordNetLemmatizer
+
+lemmatizer = WordNetLemmatizer()
+lemmatized_words = [lemmatizer.lemmatize(word) for word in tokens_no_stopwords]
+print("After Lemmatization:", lemmatized_words)
+
+
+import nltk
+
+nltk.download('omw-1.4')
+
+
+lemmatizer = WordNetLemmatizer()
+lemmatized_words = [lemmatizer.lemmatize(word) for word in tokens_no_stopwords]
+print("After Lemmatization:",lemmatized_words)
+
+
+tfidf_vectorizer = TfidfVectorizer()
+tfidf_matrix = tfidf_vectorizer.fit_transform([document])
+
+
+
+tfidf_matrix.toarray()
+
+
+tfidf_vectorizer.get_feature_names_out()
